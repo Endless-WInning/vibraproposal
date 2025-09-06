@@ -46,19 +46,48 @@
       color:color-mix(in oklab, var(--accent) 25%, var(--ink-dim));
     }
 
-    /* Pills (nav) */
+    /* ===== Pills (nav) — stacked on mobile, wrap on tablet, inline on desktop ===== */
     .nav{
-      display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;
-      padding:14px 16px;background:var(--surface);border-bottom:1px solid var(--border)
+      padding:14px 16px;
+      background:var(--surface);
+      border-bottom:1px solid var(--border);
+      display:grid;
+      grid-template-columns: 1fr;           /* stack on small screens */
+      gap:8px;
     }
-    .nav::-webkit-scrollbar{display:none}
     .pill{
-      flex-shrink:0;padding:6px 12px;border-radius:999px;background:var(--card);
-      border:1px solid var(--border);font-size:13px;font-weight:600;color:var(--ink-dim);text-decoration:none
+      display:inline-block;
+      text-align:center;
+      padding:10px 12px;
+      border-radius:999px;
+      background:var(--card);
+      border:1px solid var(--border);
+      font-size:14px;
+      font-weight:700;
+      color:var(--ink-dim);
+      text-decoration:none;
     }
     .pill:active{background:var(--accent);border-color:var(--accent);color:#fff}
 
-    /* Sections */
+    /* Tablet: 2-up grid of pills */
+    @media (min-width:540px){
+      .nav{grid-template-columns: 1fr 1fr;}
+    }
+    /* Larger tablets: 3-up grid */
+    @media (min-width:768px){
+      .container{max-width:680px;margin:0 auto}
+      .header{padding:32px 24px}
+      .nav{padding:18px 24px;grid-template-columns: 1fr 1fr 1fr;}
+    }
+    /* Desktop: single row, wrapping if needed */
+    @media (min-width:980px){
+      .nav{
+        display:flex; flex-wrap:wrap; gap:8px;
+      }
+      .pill{flex:0 0 auto; padding:6px 12px; font-size:13px; font-weight:600;}
+    }
+
+    /* ===== Sections ===== */
     .section{padding:20px 16px;border-bottom:1px solid var(--border)}
     .section-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
     .badge{
@@ -91,7 +120,7 @@
     .list .sub>li{margin:6px 0}
     .list .sub>li::before{left:-1rem;opacity:.9}
 
-    /* NEW: Pain list with little red X's, same spacing as .list */
+    /* Pain list with little red X's */
     .badlist{padding-left:1.2rem;margin:6px 0 22px}
     .badlist>li{
       position:relative;margin:6px 0;padding-left:.2rem;
@@ -99,7 +128,7 @@
       line-height:1.55
     }
     .badlist>li::before{
-      content:"✖"; /* little red x */
+      content:"✖";
       position:absolute;left:-1.1rem;top:0.1rem;
       color:var(--error);font-weight:800;font-size:13px
     }
@@ -128,16 +157,6 @@
     .roi-title{font-size:14px;font-weight:800;color:var(--success);margin-bottom:6px}
     .roi-item{font-size:13.5px;color:var(--ink-dim);margin:4px 0}
     .payback{background:var(--success);color:#06130e;border-radius:8px;padding:8px;text-align:center;font-size:13px;font-weight:800;margin-top:8px}
-
-    /* Tablet+ */
-    @media (min-width:768px){
-      .container{max-width:680px;margin:0 auto}
-      .header{padding:32px 24px}
-      .nav{padding:18px 24px}
-      .section{padding:24px}
-      h1{font-size:30px}
-      h2{font-size:20px}
-    }
   </style>
 </head>
 <body>
@@ -149,8 +168,8 @@
       <p class="subtitle">Transform paper + VAs into a digital powerhouse with automated capture, commissions, and real-time visibility.</p>
     </header>
 
-    <!-- Pills -->
-    <nav class="nav">
+    <!-- Pills (stacked on mobile) -->
+    <nav class="nav" aria-label="Section navigation">
       <a class="pill" href="#summary">Summary</a>
       <a class="pill" href="#capture">Capture</a>
       <a class="pill" href="#alerts">Alerts</a>
@@ -169,7 +188,6 @@
         <p class="lede">
           <b>Sales currently rely on VAs, disjointed processes, and scattered spreadsheets — causing:</b>
         </p>
-        <!-- NEW: Pain bullets with red X's -->
         <ul class="badlist">
           <li>lost sales data</li>
           <li>messy disputes</li>
